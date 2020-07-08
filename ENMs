@@ -1,4 +1,4 @@
-### This script is for creating Ecological Niche Models for vertebrate matrilineages of the Baja California peninsula
+### This script is for creating Ecological Niche Models for vertebrate matrilineages of the Baja California Peninsula, Mexico.
 
 ##Specie 1, north matrilineage 
 library(kuenm)
@@ -56,4 +56,61 @@ kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, bat
           write.mess = write_mess, write.clamp = write_clamp, maxent.path = maxent_path,
           args = args, wait = wait1, run = run1)
           
+##Specie 1, south matrilineage 
+library(kuenm)
 
+#Candidate models
+occ_joint <- "matrilineageS.csv"
+occ_tra <- "matrilineageS_train.csv"
+M_var_dir <- "M_variables"
+batch_cal <- "Candidate_models"
+out_dir <- "Candidate_Models"
+reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 5, 1))
+f_clas <- "all"
+args <- NULL
+maxent_path <- "C:/Users/ENM/matrilineage_s/"
+wait <- FALSE
+run <- TRUE
+
+kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, args = args,
+          maxent.path = maxent_path, wait = wait, run = run)
+          
+#Calibration models
+occ_test <- "matrilineageS_test.csv"
+out_eval <- "Calibration_results"
+threshold <- 5
+rand_percent <- 50
+iterations <- 500
+kept <- FALSE
+selection <- "OR_AICc"
+paral_proc <- FALSE
+
+cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test,
+                        batch = batch_cal, out.eval = out_eval, threshold = threshold,
+                        rand.percent = rand_percent, iterations = iterations, kept = kept,
+                        selection = selection, parallel.proc = paral_proc)
+ #Final models
+batch_fin <- "Final_models"
+mod_dir <- "Final_Models"
+rep_n <- 1
+rep_type <- "Bootstrap"
+jackknife <- FALSE
+out_format <- "logistic"
+project <- TRUE
+G_var_dir <- "G_variables"
+ext_type <- "all"
+write_mess <- FALSE
+write_clamp <- FALSE
+wait1 <- FALSE
+run1 <- TRUE
+args <- NULL
+
+kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin,
+          rep.n = rep_n, rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir,
+          out.format = out_format, project = project, G.var.dir = G_var_dir, ext.type = ext_type,
+          write.mess = write_mess, write.clamp = write_clamp, maxent.path = maxent_path,
+          args = args, wait = wait1, run = run1)
+          
+
+### This is repeated for the northern and southern matrilineages of ten other species.
