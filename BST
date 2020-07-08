@@ -1,1 +1,48 @@
 #Background similarity tests 
+
+library(ENMTools)
+#### Specie 1
+setwd("C:/Users/BST/")
+
+env.files <- list.files(path = "Layers/",pattern = ".asc", full.names = T)
+env <- stack(env.files) 
+names(env)
+plot(env[[1]])
+env <- setMinMax(env)
+crs(env) <- CRS("+proj=longlat")
+
+setwd("C:/Users/BST/Records/")
+spN <- read.csv("specie1_nor.csv")
+head(spN)
+spN <- spN[,c("Longitude","Latitude")]
+spNor <- enmtools.species()
+spNor
+class(spNor)
+
+spNor$species.name <- "spN"
+spNor$presence.points <- spN
+spNor$range <- background.raster.buffer(spNor$presence.points, 50000, mask = env)
+spNor$background.points <- background.points.buffer(spNor$presence.points, radius = 20000, n = 131, mask = env[[1]])
+
+spNor
+
+#same for south matrilineage 
+spS <- read.csv("sp_south.csv")
+head(spS)
+spS <- spS[,c("Longitude","Latitude")]
+spSouth <- enmtools.species()
+spSouth
+class(spSouth)
+
+spSouth$species.name <- "spS"
+spSouth$presence.points <- spS
+spSouth$range <- background.raster.buffer(spS$presence.points, 50000, mask = env)
+spSouth$background.points <- background.points.buffer(spS$presence.points, radius = 20000, n = 57, mask = env[[1]])
+
+spSouth
+
+bg.mx.specie1 <- background.test (spNor, spSouth, env, type = "mx", nreps = 100)
+bg.mx.specie1 
+
+
+### This was repeated for ten more species.
