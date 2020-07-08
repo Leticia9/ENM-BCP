@@ -1,1 +1,39 @@
-#
+#Layers selection
+
+##Specie 1, north and south matrilineages
+library(raster)
+
+#Extract Layers values for each record 
+setwd("C:/Users/ENM/")
+
+norte <- read.csv("matrilineageN.csv") #record in two column (xy)
+sur <- read.csv("matrilineageS.csv")
+
+#Layers
+setwd("C:/Users/ENM/")
+nortevar <- list.files("specie1_n/",pattern = "*.asc$",full.names = TRUE)
+nortevar <- stack(nortevar)
+
+survar <- list.files("specie1_s/",pattern = "*.asc$",full.names = TRUE)
+survar <- stack(survar)
+
+###norte
+extrac.N <- extract(nortevar, norte)
+head(extrac.N)
+
+##sur
+extrac.S <- extract(survar, sur)
+head(extrac.S)
+
+## Correlation table between layers
+norte.cor <- cor(extrac.N[, 2:ncol(extrac.N)], use = "pairwise.complete.obs")
+norte.cor
+sur.cor <- cor(extrac.S[, 2:ncol(extrac.S)], use = "pairwise.complete.obs")
+sur.cor
+
+setwd("C:/Users/ENM/Layers/")
+write.csv(norte.cor, "cor_matrinorth.csv")
+write.csv(sur.cor, "cor_matrisouth.csv")
+
+
+###This was repetead for ten more species
