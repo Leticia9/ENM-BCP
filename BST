@@ -1,7 +1,7 @@
  ENM-BCP
-#Leticia Cab-Sulub
+#Climatic dissimilarity associated with phylogenetic breaks
+#Cab-Sulub L. and Alvarez-Castañed ST. 
 #Centro de Investigaciones Biológicas del Noroeste
-#México
 #Background similarity tests 
 
 library(ENMTools)
