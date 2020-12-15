@@ -1,0 +1,17 @@
+#Climatic dissimilarity associated with phylogenetic breaks
+#Cab-Sulub L. and Alvarez-Castañed ST. 
+#Centro de Investigaciones Biológicas del Noroeste
+#Mantel test
+
+ibrary(vegan)
+
+setwd("C:/Documents/")
+geo <- read.matrix("sp1_geo.txt")
+ecol.norcond <- read.matrix("sp1_ecol_n.txt")
+ecol.surcond <- read.matrix("sp2_ecol_s.txt")
+
+maltel.n <- mantel(geo, ecol.norcond)
+maltel.n
+
+maltel.s <- mantel(geo, ecol.surcond)
+maltel.s
