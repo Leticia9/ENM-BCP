@@ -3,7 +3,7 @@
 #Centro de Investigaciones Biológicas del Noroeste
 #Mantel test
 
-ibrary(vegan)
+library(vegan)
 
 setwd("C:/Documents/")
 geo <- read.matrix("sp1_geo.txt")
